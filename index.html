@@ -1,578 +1,195 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Blog</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        html, body {
-            height: 100%;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-        }
-        
-        /* 加载状态 */
-        .loading-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            z-index: 1000;
-            transition: opacity 0.5s ease;
-        }
-        
-        .loading-container.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-        
-        .loader {
-            width: 50px;
-            height: 50px;
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            border-top: 4px solid #ffffff;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .loading-text {
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-        
-        .loading-subtitle {
-            font-size: 14px;
-            opacity: 0.8;
-            text-align: center;
-            max-width: 300px;
-        }
-        
-        /* 错误状态 */
-        .error-container {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
-            color: white;
-            z-index: 1001;
-            padding: 20px;
-            text-align: center;
-        }
-        
-        .error-icon {
-            font-size: 4em;
-            margin-bottom: 20px;
-        }
-        
-        .error-title {
-            font-size: 24px;
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
-        
-        .error-message {
-            font-size: 16px;
-            margin-bottom: 30px;
-            opacity: 0.9;
-            max-width: 400px;
-            line-height: 1.5;
-        }
-        
-        .btn {
-            background: white;
-            color: #ff6b6b;
-            border: none;
-            padding: 15px 30px;
-            margin: 8px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-        
-        .btn:hover {
-            background: #f8f9fa;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-        
-        .btn-secondary {
-            background: transparent;
-            color: white;
-            border: 2px solid white;
-        }
-        
-        .btn-secondary:hover {
-            background: white;
-            color: #ff6b6b;
-        }
-        
-        /* 内容容器 */
-        #content-container {
-            width: 100%;
-            min-height: 100vh;
-            overflow: auto;
-            background: white;
-        }
-        
-        /* 移动设备优化 */
-        @media (max-width: 768px) {
-            .loading-text {
-                font-size: 16px;
-            }
-            
-            .loading-subtitle {
-                font-size: 12px;
-            }
-            
-            .error-title {
-                font-size: 20px;
-            }
-            
-            .error-message {
-                font-size: 14px;
-            }
-            
-            .btn {
-                padding: 12px 24px;
-                font-size: 14px;
-                width: 100%;
-                margin: 5px 0;
-            }
-        }
-        
-        /* 进度条 */
-        .progress-bar {
-            width: 300px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 2px;
-            overflow: hidden;
-            margin-top: 20px;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: white;
-            width: 0%;
-            transition: width 0.3s ease;
-            border-radius: 2px;
-        }
-        
-        /* 成功指示器 */
-        .success-indicator {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #28a745;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 20px;
-            font-size: 14px;
-            z-index: 999;
-            opacity: 0;
-            transform: translateY(-20px);
-            transition: all 0.3s ease;
-        }
-        
-        .success-indicator.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* 内容适配 */
-        #content-container img {
-            max-width: 100%;
-            height: auto;
-        }
-        
-        #content-container a {
-            color: inherit;
-        }
-        
-        /* 响应式处理 */
-        @media (max-width: 768px) {
-            .progress-bar {
-                width: 250px;
-            }
-            
-            .success-indicator {
-                top: 10px;
-                right: 10px;
-                font-size: 12px;
-                padding: 8px 12px;
-            }
-        }
-    </style>
-</head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
 <body>
-    <!-- 加载状态 -->
-    <div id="loading" class="loading-container">
-        <div class="loader"></div>
-        <div class="loading-text">正在加载博客内容</div>
-        <div class="loading-subtitle">从服务器获取最新内容，请稍候...</div>
-        <div class="progress-bar">
-            <div class="progress-fill" id="progressFill"></div>
-        </div>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
     </div>
-    
-    <!-- 错误状态 -->
-    <div id="error" class="error-container">
-        <div class="error-icon">⚠️</div>
-        <div class="error-title">内容加载失败</div>
-        <div class="error-message" id="errorMessage">
-            无法从服务器获取内容，这可能是网络连接问题或服务器暂时不可用。
-        </div>
-        <div>
-            <button class="btn" onclick="retryLoad()">🔄 重试加载</button>
-            <a href="https://a.baozongwi.xyz/" target="_blank" class="btn btn-secondary">🔗 直接访问</a>
-        </div>
-        <div style="margin-top: 20px; font-size: 12px; opacity: 0.7;">
-            <span id="errorDetails"></span>
-        </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
     </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-Go" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/04/16/Go/" class="article-date">
+  <time class="dt-published" datetime="2025-04-16T06:43:15.000Z" itemprop="datePublished">2025-04-16</time>
+</a>
     
-    <!-- 成功指示器 -->
-    <div id="successIndicator" class="success-indicator">
-        ✅ 内容加载成功
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/04/16/Go/">Go!</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>這個博客是相當於網站使用的，借用github的https，避免有時候因為https的問題，導致某些攻擊測試失敗</p>
+
+      
     </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/04/16/Go/" data-id="cmc2rutre0003xcuk19s53zct" data-title="Go!" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+</section>
+        
+          <aside id="sidebar">
+  
     
-    <!-- 主内容容器 -->
-    <div id="content-container"></div>
+
+  
     
-    <script>
-        // 全局变量
-        let retryCount = 0;
-        let maxRetries = 3;
-        let loadStartTime = Date.now();
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/04/">April 2025</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
         
-        // 获取目标URL
-        function getTargetUrl() {
-            const currentPath = window.location.pathname === '/' ? '' : window.location.pathname;
-            return 'https://a.baozongwi.xyz' + currentPath + window.location.search + window.location.hash;
-        }
+          <li>
+            <a href="/2025/04/16/Go/">Go!</a>
+          </li>
         
-        // 更新进度条
-        function updateProgress(percentage) {
-            document.getElementById('progressFill').style.width = percentage + '%';
-        }
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
         
-        // 显示成功指示器
-        function showSuccess() {
-            const indicator = document.getElementById('successIndicator');
-            indicator.classList.add('show');
-            setTimeout(() => {
-                indicator.classList.remove('show');
-            }, 3000);
-        }
-        
-        // 隐藏加载状态
-        function hideLoading() {
-            const loadingContainer = document.getElementById('loading');
-            loadingContainer.classList.add('hidden');
-            setTimeout(() => {
-                loadingContainer.style.display = 'none';
-            }, 500);
-        }
-        
-        // 显示错误状态
-        function showError(message, details = '') {
-            hideLoading();
-            document.getElementById('errorMessage').textContent = message;
-            document.getElementById('errorDetails').textContent = details;
-            document.getElementById('error').style.display = 'flex';
-        }
-        
-        // 重试加载
-        function retryLoad() {
-            document.getElementById('error').style.display = 'none';
-            document.getElementById('loading').style.display = 'flex';
-            document.getElementById('loading').classList.remove('hidden');
-            retryCount++;
-            
-            // 重置进度条
-            updateProgress(0);
-            
-            setTimeout(() => {
-                loadContent();
-            }, 1000);
-        }
-        
-        // 直接重定向
-        function directRedirect() {
-            window.location.href = getTargetUrl();
-        }
-        
-        // 修复相对链接和资源路径
-        function fixRelativeUrls(container) {
-            const baseUrl = 'https://a.baozongwi.xyz';
-            
-            // 修复图片路径
-            container.querySelectorAll('img').forEach(img => {
-                const src = img.getAttribute('src');
-                if (src && (src.startsWith('/') || (!src.includes('://') && !src.startsWith('data:')))) {
-                    img.src = baseUrl + (src.startsWith('/') ? '' : '/') + src;
-                }
-            });
-            
-            // 修复链接
-            container.querySelectorAll('a').forEach(link => {
-                const href = link.getAttribute('href');
-                if (href && href.startsWith('/')) {
-                    link.href = baseUrl + href;
-                    // 内部链接在当前页面打开，外部链接在新窗口打开
-                    if (href.startsWith('/')) {
-                        link.onclick = function(e) {
-                            e.preventDefault();
-                            window.location.hash = '#loading';
-                            window.location.pathname = href;
-                            loadContent();
-                        };
-                    }
-                } else if (href && !href.includes('://') && !href.startsWith('#') && !href.startsWith('mailto:')) {
-                    link.href = baseUrl + '/' + href;
-                    link.target = '_blank';
-                }
-            });
-            
-            // 修复CSS背景图片
-            container.querySelectorAll('*').forEach(element => {
-                const style = window.getComputedStyle(element);
-                const backgroundImage = style.backgroundImage;
-                if (backgroundImage && backgroundImage.includes('url(') && !backgroundImage.includes('://')) {
-                    const url = backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/);
-                    if (url && url[1].startsWith('/')) {
-                        element.style.backgroundImage = `url(${baseUrl}${url[1]})`;
-                    }
-                }
-            });
-            
-            // 修复表单提交
-            container.querySelectorAll('form').forEach(form => {
-                const action = form.getAttribute('action');
-                if (action && action.startsWith('/')) {
-                    form.action = baseUrl + action;
-                    form.target = '_blank';
-                }
-            });
-        }
-        
-        // 主加载函数
-        async function loadContent() {
-            try {
-                loadStartTime = Date.now();
-                updateProgress(10);
-                
-                const targetUrl = getTargetUrl();
-                console.log('正在加载内容:', targetUrl);
-                
-                // 设置请求选项
-                const fetchOptions = {
-                    method: 'GET',
-                    mode: 'cors',
-                    cache: 'no-cache',
-                    credentials: 'omit',
-                    headers: {
-                        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-                        'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
-                        'User-Agent': navigator.userAgent
-                    }
-                };
-                
-                updateProgress(30);
-                
-                // 发起请求
-                const response = await fetch(targetUrl, fetchOptions);
-                
-                updateProgress(60);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
-                
-                // 获取HTML内容
-                const html = await response.text();
-                updateProgress(80);
-                
-                // 解析HTML
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                
-                // 提取body内容
-                const bodyContent = doc.body;
-                if (!bodyContent) {
-                    throw new Error('无法解析服务器返回的HTML内容');
-                }
-                
-                updateProgress(90);
-                
-                // 将内容插入到容器中
-                const container = document.getElementById('content-container');
-                
-                // 先复制head中的样式
-                const headStyles = doc.head.querySelectorAll('style, link[rel="stylesheet"]');
-                headStyles.forEach(style => {
-                    if (style.tagName === 'STYLE') {
-                        const newStyle = document.createElement('style');
-                        newStyle.textContent = style.textContent;
-                        document.head.appendChild(newStyle);
-                    } else if (style.tagName === 'LINK') {
-                        const newLink = document.createElement('link');
-                        newLink.rel = 'stylesheet';
-                        newLink.href = style.href.startsWith('/') ? 'https://a.baozongwi.xyz' + style.href : style.href;
-                        document.head.appendChild(newLink);
-                    }
-                });
-                
-                // 插入body内容
-                container.innerHTML = bodyContent.innerHTML;
-                
-                // 修复相对链接
-                fixRelativeUrls(container);
-                
-                updateProgress(100);
-                
-                // 延迟隐藏加载状态，让用户看到完成效果
-                setTimeout(() => {
-                    hideLoading();
-                    showSuccess();
-                    
-                    const loadTime = Date.now() - loadStartTime;
-                    console.log(`内容加载成功，耗时: ${loadTime}ms`);
-                }, 500);
-                
-                // 执行页面中的脚本（谨慎操作）
-                const scripts = container.querySelectorAll('script');
-                scripts.forEach(script => {
-                    if (script.src) {
-                        // 外部脚本
-                        const newScript = document.createElement('script');
-                        newScript.src = script.src.startsWith('/') ? 'https://a.baozongwi.xyz' + script.src : script.src;
-                        newScript.async = true;
-                        document.head.appendChild(newScript);
-                    } else if (script.textContent && !script.textContent.includes('location.href')) {
-                        // 内联脚本（排除可能造成重定向的脚本）
-                        try {
-                            eval(script.textContent);
-                        } catch (e) {
-                            console.warn('脚本执行失败:', e);
-                        }
-                    }
-                });
-                
-            } catch (error) {
-                console.error('加载失败:', error);
-                
-                let errorMessage = '内容加载失败';
-                let errorDetails = error.message;
-                
-                if (error.name === 'TypeError' && error.message.includes('fetch')) {
-                    errorMessage = '网络连接失败';
-                    errorDetails = '无法连接到服务器，请检查网络连接';
-                } else if (error.message.includes('CORS')) {
-                    errorMessage = '跨域访问被阻止';
-                    errorDetails = 'CORS策略限制了访问，建议直接访问';
-                } else if (error.message.includes('HTTP 4')) {
-                    errorMessage = '页面不存在';
-                    errorDetails = '请求的页面在服务器上不存在';
-                } else if (error.message.includes('HTTP 5')) {
-                    errorMessage = '服务器错误';
-                    errorDetails = '服务器暂时不可用，请稍后重试';
-                }
-                
-                if (retryCount < maxRetries) {
-                    errorMessage += ` (重试 ${retryCount}/${maxRetries})`;
-                    setTimeout(() => {
-                        retryLoad();
-                    }, 2000);
-                } else {
-                    showError(errorMessage, errorDetails);
-                }
-            }
-        }
-        
-        // 检测设备和环境
-        function detectEnvironment() {
-            const userAgent = navigator.userAgent;
-            const isMobile = /Mobile|Android|iPhone|iPad|iPod|BlackBerry|Windows Phone/.test(userAgent);
-            const isGitHubPages = window.location.hostname.includes('github.io');
-            
-            console.log('环境检测:', {
-                mobile: isMobile,
-                githubPages: isGitHubPages,
-                userAgent: userAgent
-            });
-        }
-        
-        // 页面初始化
-        function init() {
-            detectEnvironment();
-            
-            // 检查是否需要重定向
-            if (window.location.hostname === 'a.baozongwi.xyz') {
-                // 如果已经在目标域名，直接显示内容
-                document.getElementById('content-container').innerHTML = document.body.innerHTML;
-                hideLoading();
-                return;
-            }
-            
-            // 开始加载内容
-            setTimeout(() => {
-                loadContent();
-            }, 1000); // 让用户看到加载动画
-        }
-        
-        // 监听浏览器前进后退
-        window.addEventListener('popstate', function(event) {
-            loadContent();
-        });
-        
-        // 监听网络状态变化
-        window.addEventListener('online', function() {
-            console.log('网络连接恢复');
-            if (document.getElementById('error').style.display !== 'none') {
-                retryLoad();
-            }
-        });
-        
-        window.addEventListener('offline', function() {
-            console.log('网络连接断开');
-            showError('网络连接断开', '请检查网络连接后重试');
-        });
-        
-        // 启动应用
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', init);
-        } else {
-            init();
-        }
-    </script>
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
 </body>
 </html>
