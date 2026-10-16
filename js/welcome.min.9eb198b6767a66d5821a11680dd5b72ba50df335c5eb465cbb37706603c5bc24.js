@@ -1,0 +1,1 @@
+(function(){var t,e=document.getElementById("welcome-screen");if(!e)return;if(t="flavor-welcome-shown",sessionStorage.getItem(t)){e.remove();return}document.body.classList.add("welcome-visible"),setTimeout(function(){e.classList.add("is-hidden"),document.body.classList.remove("welcome-visible"),sessionStorage.setItem(t,"1"),setTimeout(function(){e.remove()},700)},900)})()
